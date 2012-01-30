@@ -28,7 +28,10 @@
     }
 
     #page-fb-admin {
+      background: #808080;
+      color: #fff;
       padding: 5px 10px;
+      cursor: pointer;
     }
   </style>
 
