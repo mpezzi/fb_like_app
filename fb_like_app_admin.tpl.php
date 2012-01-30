@@ -13,7 +13,7 @@
   function addToPage() {
     FB.ui({
       method: 'pagetab',
-      redirect_uri: '<?php print url("fb/tab", array("absolute" => TRUE)); ?>'
+      redirect_uri: '<?php print url("node/" . arg(1) . "/app", array("absolute" => TRUE)); ?>'
     });
   }
 </script>

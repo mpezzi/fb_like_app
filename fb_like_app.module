@@ -41,15 +41,15 @@ function fb_like_app_init() {
   if ( arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'app' ) {
     $node = node_load(arg(1));
 
+    // Get field data from node.
+    $field_app_id = field_get_items('node', $node, 'field_app_id');
+    $field_app_secret = field_get_items('node', $node, 'field_app_secret');
+
+    $fb_like_app->app_id = $field_app_id[0]['value'];
+    $fb_like_app->app_secret = $field_app_secret[0]['value'];
+
     // Parse the signed request.
     if ( isset($_REQUEST['signed_request']) ) {
-
-      // Get field data from node.
-      $field_app_id = field_get_items('node', $node, 'field_app_id');
-      $field_app_secret = field_get_items('node', $node, 'field_app_secret');
-
-      $fb_like_app->app_id = $field_app_id[0]['value'];
-      $fb_like_app->app_secret = $field_app_secret[0]['value'];
       $fb_like_app->parsed_request = fb_like_app_parse_signed_request($_REQUEST['signed_request'], $fb_like_app->app_secret);
 
       // Check if page is liked.
