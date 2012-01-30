@@ -64,6 +64,24 @@ function fb_like_app_features_default_filefield_paths() {
     ),
     'active_updating' => '0',
   );
+  // Exported node::fb_like_app::field_banner_maintenance
+  $settings['node::fb_like_app::field_banner_maintenance'] = array(
+    'type' => 'node::fb_like_app',
+    'field' => 'field_banner_maintenance',
+    'filename' => array(
+      'value' => '[node:nid]-[node:language].[file:ffp-extension-original]',
+      'tolower' => 0,
+      'pathauto' => 0,
+      'transliterate' => 0,
+    ),
+    'filepath' => array(
+      'value' => 'images/fb_like_app/maintenance',
+      'tolower' => 0,
+      'pathauto' => 0,
+      'transliterate' => 0,
+    ),
+    'active_updating' => '0',
+  );
 
   return $settings;
 }
