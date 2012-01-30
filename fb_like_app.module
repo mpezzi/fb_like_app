@@ -133,10 +133,14 @@ function fb_like_app_theme() {
     'fb_like_app' => array(
       'variables' => array('node' => NULL, 'type' => NULL),
       'template' => 'fb_like_app',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
     ),
     'fb_like_app_admin' => array(
       'variables' => array('node' => NULL),
       'template' => 'fb_like_app_admin',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
     ),
   );
 }
@@ -159,60 +163,4 @@ function fb_like_app_channel() {
   header("Cache-Control: max-age=" . $cache_expire);
   header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $cache_expire) . ' GMT');
   print '<script src="//connect.facebook.net/en_US/all.js"></script>';
-}
-
-/**
- * Implements template_preprocess().
- */
-function template_preprocess_fb_like_app(&$vars) {
-  global $fb_like_app;
-
-  $vars['theme_hook_suggestions'] = array();
-  $vars['theme_hook_suggestions'][] = 'fb__like__app';
-  $vars['theme_hook_suggestions'][] = 'fb__like__app__' . $vars['node']->nid;
-
-  $field_app_link = field_get_items('node', $vars['node'], 'field_app_link');
-  $field_app_status = field_get_items('node', $vars['node'], 'field_app_status');
-  $field_banner_like = field_get_items('node', $vars['node'], 'field_banner_like');
-  $field_banner_liked = field_get_items('node', $vars['node'], 'field_banner_liked');
-  $field_banner_closed = field_get_items('node', $vars['node'], 'field_banner_closed');
-
-  $vars['app_link'] = $field_app_link[0]['url'];
-  $vars['app_status'] = $field_app_status[0]['value'];
-  $vars['banner_like'] = field_view_value('node', $vars['node'], 'field_banner_like', $field_banner_like[0]);
-  $vars['banner_liked'] = field_view_value('node', $vars['node'], 'field_banner_liked', $field_banner_liked[0]);
-  $vars['banner_closed'] = field_view_value('node', $vars['node'], 'field_banner_closed', $field_banner_closed[0]);
-
-  $vars['is_closed'] = ( $vars['app_status'] == 0 );
-  $vars['is_open'] = ( $vars['app_status'] == 1 );
-  $vars['is_maintenance'] = ( $vars['app_status'] == 2 );
-  $vars['is_liked'] = (bool) $fb_like_app->liked;
-
-  if ( $vars['type'] == FB_LIKE_APP_CLOSED ) {
-    $vars['is_closed'] = TRUE;
-  }
-
-  if ( $vars['type'] == FB_LIKE_APP_LIKE ) {
-    $vars['is_like'] = FALSE;
-  }
-
-  if ( $vars['type'] == FB_LIKE_APP_LIKED ) {
-    $vars['is_liked'] = TRUE;
-  }
-
-  if ( $vars['type'] == FB_LIKE_APP_MAINTENANCE ) {
-    $vars['is_maintenance'] = TRUE;
-  }
-
-  $vars['fb_like_app'] = $fb_like_app;
-  $vars['fb_like_app_admin'] = theme('fb_like_app_admin', array('node' => $vars['node']));
-}
-
-/**
- * Implements template_preprocess().
- */
-function template_preprocess_fb_like_app_admin(&$vars) {
-  global $fb_like_app;
-
-  $vars['app_id'] = isset($fb_like_app->app_id) ? $fb_like_app->app_id : '';
 }
