@@ -13,8 +13,8 @@ function template_preprocess_fb_like_app(&$vars) {
   global $fb_like_app;
 
   $vars['theme_hook_suggestions'] = array();
-  $vars['theme_hook_suggestions'][] = 'fb__like__app';
-  $vars['theme_hook_suggestions'][] = 'fb__like__app__' . $vars['node']->nid;
+  $vars['theme_hook_suggestions'][] = 'fb_like_app';
+  $vars['theme_hook_suggestions'][] = 'fb_like_app__' . $vars['node']->nid;
 
   $field_app_status = field_get_items('node', $vars['node'], 'field_app_status');
 
@@ -49,6 +49,8 @@ function template_preprocess_fb_like_app(&$vars) {
   $vars['maintenance'] = theme('fb_like_app_maintenance', array('node' => $vars['node']));
   $vars['liked'] = theme('fb_like_app_liked', array('node' => $vars['node']));
   $vars['like'] = theme('fb_like_app_like', array('node' => $vars['node']));
+
+  //kpr($vars);
 }
 
 /**
@@ -56,8 +58,8 @@ function template_preprocess_fb_like_app(&$vars) {
  */
 function template_preprocess_fb_like_app_like(&$vars) {
   $vars['theme_hook_suggestions'] = array();
-  $vars['theme_hook_suggestions'][] = 'fb__like__app__like';
-  $vars['theme_hook_suggestions'][] = 'fb__like__app__like__' . $vars['node']->nid;
+  $vars['theme_hook_suggestions'][] = 'fb_like_app_like';
+  $vars['theme_hook_suggestions'][] = 'fb_like_app_like__' . $vars['node']->nid;
 
   $field_app_link = field_get_items('node', $vars['node'], 'field_app_link');
   $field_banner_like = field_get_items('node', $vars['node'], 'field_banner_like');
@@ -71,8 +73,8 @@ function template_preprocess_fb_like_app_like(&$vars) {
  */
 function template_preprocess_fb_like_app_liked(&$vars) {
   $vars['theme_hook_suggestions'] = array();
-  $vars['theme_hook_suggestions'][] = 'fb__like__app__liked';
-  $vars['theme_hook_suggestions'][] = 'fb__like__app__liked__' . $vars['node']->nid;
+  $vars['theme_hook_suggestions'][] = 'fb_like_app_liked';
+  $vars['theme_hook_suggestions'][] = 'fb_like_app_liked__' . $vars['node']->nid;
 
   $field_app_link = field_get_items('node', $vars['node'], 'field_app_link');
   $field_banner_liked = field_get_items('node', $vars['node'], 'field_banner_liked');
@@ -86,8 +88,8 @@ function template_preprocess_fb_like_app_liked(&$vars) {
  */
 function template_preprocess_fb_like_app_closed(&$vars) {
   $vars['theme_hook_suggestions'] = array();
-  $vars['theme_hook_suggestions'][] = 'fb__like__app__closed';
-  $vars['theme_hook_suggestions'][] = 'fb__like__app__closed__' . $vars['node']->nid;
+  $vars['theme_hook_suggestions'][] = 'fb_like_app_closed';
+  $vars['theme_hook_suggestions'][] = 'fb_like_app_closed__' . $vars['node']->nid;
 
   $field_banner_closed = field_get_items('node', $vars['node'], 'field_banner_closed');
 
@@ -99,8 +101,8 @@ function template_preprocess_fb_like_app_closed(&$vars) {
  */
 function template_preprocess_fb_like_app_maintenance(&$vars) {
   $vars['theme_hook_suggestions'] = array();
-  $vars['theme_hook_suggestions'][] = 'fb__like__app__maintenance';
-  $vars['theme_hook_suggestions'][] = 'fb__like__app__maintenance__' . $vars['node']->nid;
+  $vars['theme_hook_suggestions'][] = 'fb_like_app_maintenance';
+  $vars['theme_hook_suggestions'][] = 'fb_like_app_maintenance__' . $vars['node']->nid;
 
   $field_banner_maintenance = field_get_items('node', $vars['node'], 'field_banner_maintenance');
 

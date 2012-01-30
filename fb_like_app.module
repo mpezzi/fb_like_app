@@ -137,37 +137,37 @@ function fb_like_app_theme() {
   return array(
     'fb_like_app' => array(
       'variables' => array('node' => NULL, 'type' => NULL),
-      'template' => 'fb_like_app',
+      'template' => 'fb-like-app',
       'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
       'file' => 'theme.inc',
     ),
     'fb_like_app_admin' => array(
       'variables' => array('node' => NULL),
-      'template' => 'fb_like_app_admin',
+      'template' => 'fb-like-app-admin',
       'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
       'file' => 'theme.inc',
     ),
     'fb_like_app_like' => array(
       'variables' => array('node' => NULL),
-      'template' => 'fb_like_app_like',
+      'template' => 'fb-like-app-like',
       'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
       'file' => 'theme.inc',
     ),
     'fb_like_app_liked' => array(
       'variables' => array('node' => NULL),
-      'template' => 'fb_like_app_liked',
+      'template' => 'fb-like-app-liked',
       'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
       'file' => 'theme.inc',
     ),
     'fb_like_app_closed' => array(
       'variables' => array('node' => NULL),
-      'template' => 'fb_like_app_closed',
+      'template' => 'fb-like-app-closed',
       'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
       'file' => 'theme.inc',
     ),
     'fb_like_app_maintenance' => array(
       'variables' => array('node' => NULL),
-      'template' => 'fb_like_app_maintenance',
+      'template' => 'fb-like-app-maintenance',
       'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
       'file' => 'theme.inc',
     ),
