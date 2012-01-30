@@ -1,0 +1,200 @@
+<?php
+
+/**
+ * @file
+ * Provides Facebook Like Application functionality.
+ */
+
+/**
+ * Facebook Like Application "Like" state.
+ */
+define('FB_LIKE_APP_LIKE', 'like');
+
+/**
+ * Facebook Like Application "Liked" state.
+ */
+define('FB_LIKE_APP_LIKED', 'liked');
+
+/**
+ * Facebook Like Application "Closed" state.
+ */
+define('FB_LIKE_APP_CLOSED', 'closed');
+
+/**
+ * Facebook Like Application "Maintenance" state.
+ */
+define('FB_LIKE_APP_MAINTENANCE', 'maintenance');
+
+/**
+ * Load internal helper functions.
+ */
+require dirname(__FILE__) . '/fb_like_app.inc';
+
+
+/**
+ * Implements hook_init().
+ */
+function fb_like_app_init() {
+  global $language, $conf, $fb_like_app;
+
+  // Parse signed request and language from Facebook page.
+  if ( arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'app' ) {
+    $node = node_load(arg(1));
+
+    // Parse the signed request.
+    if ( isset($_REQUEST['signed_request']) ) {
+
+      // Get field data from node.
+      $field_app_id = field_get_items('node', $node, 'field_app_id');
+      $field_app_secret = field_get_items('node', $node, 'field_app_secret');
+
+      $fb_like_app->app_id = $field_app_id[0]['value'];
+      $fb_like_app->app_secret = $field_app_secret[0]['value'];
+      $fb_like_app->parsed_request = fb_like_app_parse_signed_request($_REQUEST['signed_request'], $fb_like_app->app_secret);
+
+      // Check if page is liked.
+      if ( isset($fb_like_app->parsed_request['page']['liked']) ) {
+        $fb_like_app->liked = $fb_like_app->parsed_request['page']['liked'];
+      }
+
+      // Get user locale.
+      if ( isset($fb_like_app->parsed_request['user']['locale']) ) {
+        $fb_like_app->locale = $fb_like_app->parsed_request['user']['locale'];
+      }
+    }
+
+    // Override the current language with the language set from Facebook.
+    if ( isset($fb_like_app->locale) && variable_get('fb_like_app_override_language', TRUE) ) {
+      $lang = fb_like_app_lang_map($fb_like_app->locale);
+      $languages = language_list();
+      if ( isset($languages[$lang]) ) {
+        $language = $languages[$lang];
+      }
+    }
+
+    // If liked state was not set from the signed_request, see our own mode.
+    if ( !isset($fb_like_app->liked) ) {
+      $fb_like_app->liked = 0;
+    }
+
+    $conf['cache'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_perm().
+ */
+function fb_like_app_permission() {
+  return array(
+    'view fb like app' => array(
+      'title' => t('View Facebook Like Applications'),
+      'description' => t('Ability to view the rendered Facebook Like Application page'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function fb_like_app_menu() {
+  return array(
+    'node/%node/app' => array(
+      'title' => 'Like Application',
+      'page callback' => 'fb_like_app_page',
+      'page arguments' => array(1, 3),
+      'access callback' => '_fb_like_app_access',
+      'access arguments' => array(1),
+      'type' => MENU_LOCAL_TASK,
+    ),
+  );
+}
+
+/**
+ * Menu Access Callback.
+ */
+function _fb_like_app_access($node) {
+  if ( $node->type == 'fb_like_app' ) {
+    return user_access('view fb like app');
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function fb_like_app_theme() {
+  return array(
+    'fb_like_app' => array(
+      'variables' => array('node' => NULL, 'type' => NULL),
+      'template' => 'fb_like_app',
+    ),
+    'fb_like_app_admin' => array(
+      'variables' => array('node' => NULL),
+      'template' => 'fb_like_app_admin',
+    ),
+  );
+}
+
+/**
+ * Page Callback: Facebook Like Application.
+ */
+function fb_like_app_page($node, $type = NULL) {
+  print theme('fb_like_app', array('node' => $node, 'type' => $type));
+}
+
+/**
+ * Implements template_preprocess().
+ */
+function template_preprocess_fb_like_app(&$vars) {
+  global $fb_like_app;
+
+  $vars['theme_hook_suggestions'] = array();
+  $vars['theme_hook_suggestions'][] = 'fb__like__app';
+  $vars['theme_hook_suggestions'][] = 'fb__like__app__' . $vars['node']->nid;
+
+  $field_app_link = field_get_items('node', $vars['node'], 'field_app_link');
+  $field_app_status = field_get_items('node', $vars['node'], 'field_app_status');
+  $field_banner_like = field_get_items('node', $vars['node'], 'field_banner_like');
+  $field_banner_liked = field_get_items('node', $vars['node'], 'field_banner_liked');
+  $field_banner_closed = field_get_items('node', $vars['node'], 'field_banner_closed');
+
+  $vars['app_link'] = $field_app_link[0]['url'];
+  $vars['app_status'] = $field_app_status[0]['value'];
+  $vars['banner_like'] = field_view_value('node', $vars['node'], 'field_banner_like', $field_banner_like[0]);
+  $vars['banner_liked'] = field_view_value('node', $vars['node'], 'field_banner_liked', $field_banner_liked[0]);
+  $vars['banner_closed'] = field_view_value('node', $vars['node'], 'field_banner_closed', $field_banner_closed[0]);
+
+  $vars['is_closed'] = ( $vars['app_status'] == 0 );
+  $vars['is_open'] = ( $vars['app_status'] == 1 );
+  $vars['is_maintenance'] = ( $vars['app_status'] == 2 );
+  $vars['is_liked'] = (bool) $fb_like_app->liked;
+
+  if ( $vars['type'] == FB_LIKE_APP_CLOSED ) {
+    $vars['is_closed'] = TRUE;
+  }
+
+  if ( $vars['type'] == FB_LIKE_APP_LIKE ) {
+    $vars['is_like'] = FALSE;
+  }
+
+  if ( $vars['type'] == FB_LIKE_APP_LIKED ) {
+    $vars['is_liked'] = TRUE;
+  }
+
+  if ( $vars['type'] == FB_LIKE_APP_MAINTENANCE ) {
+    $vars['is_maintenance'] = TRUE;
+  }
+
+  $vars['fb_like_app'] = $fb_like_app;
+  $vars['fb_like_app_admin'] = theme('fb_like_app_admin', array('node' => $vars['node']));
+}
+
+/**
+ * Implements template_preprocess().
+ */
+function template_preprocess_fb_like_app_admin(&$vars) {
+  global $fb_like_app;
+
+  $vars['app_id'] = isset($fb_like_app->app_id) ? $fb_like_app->app_id : '';
+}
