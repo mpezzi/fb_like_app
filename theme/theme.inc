@@ -7,7 +7,7 @@
 
 
 /**
- * Override or insert variables into fb_like_app.tpl.php
+ * Override or insert variables into fb-like-app.tpl.php
  */
 function template_preprocess_fb_like_app(&$vars) {
   global $fb_like_app;
@@ -54,7 +54,7 @@ function template_preprocess_fb_like_app(&$vars) {
 }
 
 /**
- * Override or insert variables into fb_like_app_like.tpl.php
+ * Override or insert variables into fb-like-app-like.tpl.php
  */
 function template_preprocess_fb_like_app_like(&$vars) {
   $vars['theme_hook_suggestions'] = array();
@@ -69,7 +69,7 @@ function template_preprocess_fb_like_app_like(&$vars) {
 }
 
 /**
- * Override or insert variables into fb_like_app_liked.tpl.php
+ * Override or insert variables into fb-like-app-liked.tpl.php
  */
 function template_preprocess_fb_like_app_liked(&$vars) {
   $vars['theme_hook_suggestions'] = array();
@@ -84,7 +84,7 @@ function template_preprocess_fb_like_app_liked(&$vars) {
 }
 
 /**
- * Override or insert variables into fb_like_app_closed.tpl.php
+ * Override or insert variables into fb-like-app-closed.tpl.php
  */
 function template_preprocess_fb_like_app_closed(&$vars) {
   $vars['theme_hook_suggestions'] = array();
@@ -97,7 +97,7 @@ function template_preprocess_fb_like_app_closed(&$vars) {
 }
 
 /**
- * Override or insert variables into fb_like_app_maintenance.tpl.php
+ * Override or insert variables into fb-like-app-maintenance.tpl.php
  */
 function template_preprocess_fb_like_app_maintenance(&$vars) {
   $vars['theme_hook_suggestions'] = array();
@@ -110,7 +110,7 @@ function template_preprocess_fb_like_app_maintenance(&$vars) {
 }
 
 /**
- * Override or insert variables into fb_like_app_admin.tpl.php
+ * Override or insert variables into fb-like-app-admin.tpl.php
  */
 function template_preprocess_fb_like_app_admin(&$vars) {
   global $fb_like_app;
