@@ -13,7 +13,11 @@ function fb_like_app_features_user_default_permissions() {
   // Exported permission: view fb like app
   $permissions['view fb like app'] = array(
     'name' => 'view fb like app',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'fb_like_app',
   );
 
   return $permissions;
