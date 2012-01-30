@@ -6,6 +6,7 @@
 <script>
   FB.init({
     appId: "<?php print $app_id; ?>",
+    channelUrl: "<?php print url('fb_like_app/channel', array('absolute' => TRUE)); ?>",
     status: true,
     cookie: true
   });
