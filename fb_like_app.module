@@ -6,6 +6,11 @@
  */
 
 /**
+ * Local Task url.
+ */
+define('FB_LIKE_APP_TASK', 'app');
+
+/**
  * Facebook Like Application "Like" state.
  */
 define('FB_LIKE_APP_LIKE', 'like');
@@ -38,7 +43,7 @@ function fb_like_app_init() {
   global $language, $conf, $fb_like_app;
 
   // Parse signed request and language from Facebook page.
-  if ( arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'app' ) {
+  if ( arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == FB_LIKE_APP_TASK ) {
     $node = node_load(arg(1));
 
     // Get field data from node.
@@ -98,7 +103,7 @@ function fb_like_app_permission() {
  */
 function fb_like_app_menu() {
   return array(
-    'node/%node/app' => array(
+    'node/%node/' . FB_LIKE_APP_TASK => array(
       'title' => 'Like Application',
       'page callback' => 'fb_like_app_page',
       'page arguments' => array(1, 3),
@@ -139,6 +144,30 @@ function fb_like_app_theme() {
     'fb_like_app_admin' => array(
       'variables' => array('node' => NULL),
       'template' => 'fb_like_app_admin',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
+    ),
+    'fb_like_app_like' => array(
+      'variables' => array('node' => NULL),
+      'template' => 'fb_like_app_like',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
+    ),
+    'fb_like_app_liked' => array(
+      'variables' => array('node' => NULL),
+      'template' => 'fb_like_app_liked',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
+    ),
+    'fb_like_app_closed' => array(
+      'variables' => array('node' => NULL),
+      'template' => 'fb_like_app_closed',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
+    ),
+    'fb_like_app_maintenance' => array(
+      'variables' => array('node' => NULL),
+      'template' => 'fb_like_app_maintenance',
       'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
       'file' => 'theme.inc',
     ),

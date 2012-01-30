@@ -40,17 +40,17 @@
 
 <div id="page">
   <?php if ( $is_closed ): ?>
-    <?php print render($banner_closed); ?>
+    <?php print $closed; ?>
   <?php elseif ( $is_maintenance ): ?>
-    <?php print render($banner_maintenance); ?>
+    <?php print $maintenance; ?>
   <?php elseif ( $is_open && $is_liked ): ?>
-    <?php print l(render($banner_liked), $app_link, array('html' => TRUE, 'attributes' => array('target' => '_blank'))); ?>
+    <?php print $liked; ?>
   <?php else: ?>
-    <?php print render($banner_like); ?>
+    <?php print $like; ?>
   <?php endif; ?>
 
   <?php if ( $is_admin ): ?>
-    <?php print $fb_like_app_admin; ?>
+    <?php print $admin; ?>
   <?php endif; ?>
 </div>
 
