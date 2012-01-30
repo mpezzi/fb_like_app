@@ -49,7 +49,7 @@ function fb_like_app_features_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 3,
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -118,7 +118,7 @@ function fb_like_app_features_field_default_fields() {
           'module' => 'link',
           'settings' => array(),
           'type' => 'link_default',
-          'weight' => 5,
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -199,7 +199,7 @@ function fb_like_app_features_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 4,
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -269,7 +269,7 @@ function fb_like_app_features_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 6,
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -337,7 +337,7 @@ function fb_like_app_features_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 2,
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -431,7 +431,7 @@ function fb_like_app_features_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 0,
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -525,7 +525,7 @@ function fb_like_app_features_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 1,
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -619,7 +619,7 @@ function fb_like_app_features_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 7,
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
