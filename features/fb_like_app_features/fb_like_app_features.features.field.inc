@@ -367,7 +367,7 @@ function fb_like_app_features_field_default_fields() {
       'label' => 'Closed',
       'required' => 0,
       'settings' => array(
-        'alt_field' => 0,
+        'alt_field' => 1,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
@@ -461,7 +461,7 @@ function fb_like_app_features_field_default_fields() {
       'label' => 'Like',
       'required' => 0,
       'settings' => array(
-        'alt_field' => 0,
+        'alt_field' => 1,
         'file_directory' => 'images/fb_like_app/like',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
@@ -555,7 +555,7 @@ function fb_like_app_features_field_default_fields() {
       'label' => 'Liked',
       'required' => 0,
       'settings' => array(
-        'alt_field' => 0,
+        'alt_field' => 1,
         'file_directory' => 'images/fb_like_app/liked',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
@@ -649,7 +649,7 @@ function fb_like_app_features_field_default_fields() {
       'label' => 'Maintenance',
       'required' => 0,
       'settings' => array(
-        'alt_field' => 0,
+        'alt_field' => 1,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
