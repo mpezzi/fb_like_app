@@ -18,6 +18,7 @@
     #page {
       position: relative;
       width: 520px;
+      height: 800px;
       overflow: hidden;
       font-size: 0.75em;
       line-height: 1.4em;
@@ -28,10 +29,17 @@
     }
 
     #page-fb-admin {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 520px;
       background: #808080;
       color: #fff;
-      padding: 5px 10px;
       cursor: pointer;
+    }
+
+    #page-fb-admin-inner {
+      padding: 5px 10px;
     }
   </style>
 
