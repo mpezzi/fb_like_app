@@ -1,4 +1,4 @@
-name = "fb_like_app_features"
+name = "Facebook Like Application Features"
 description = "Provides Facebook Like Application features for Drupal."
 core = "7.x"
 package = "Features"
