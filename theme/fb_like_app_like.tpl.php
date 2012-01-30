@@ -1,1 +1,3 @@
-<?php print render($content); ?>
+<div class="like">
+  <?php print render($content); ?>
+</div>
