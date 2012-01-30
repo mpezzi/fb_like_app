@@ -6,6 +6,7 @@
 <script>
   FB.init({
     appId: "<?php print $app_id; ?>",
+    channelUrl: "<?php print url('fb_like_app/channel', array('absolute' => TRUE)); ?>",
     status: true,
     cookie: true
   });
@@ -13,7 +14,7 @@
   function addToPage() {
     FB.ui({
       method: 'pagetab',
-      redirect_uri: '<?php print url("fb/tab", array("absolute" => TRUE)); ?>'
+      redirect_uri: '<?php print url("node/" . arg(1) . "/app", array("absolute" => TRUE)); ?>'
     });
   }
 </script>

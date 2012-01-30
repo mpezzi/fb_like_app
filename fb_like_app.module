@@ -41,15 +41,15 @@ function fb_like_app_init() {
   if ( arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'app' ) {
     $node = node_load(arg(1));
 
+    // Get field data from node.
+    $field_app_id = field_get_items('node', $node, 'field_app_id');
+    $field_app_secret = field_get_items('node', $node, 'field_app_secret');
+
+    $fb_like_app->app_id = $field_app_id[0]['value'];
+    $fb_like_app->app_secret = $field_app_secret[0]['value'];
+
     // Parse the signed request.
     if ( isset($_REQUEST['signed_request']) ) {
-
-      // Get field data from node.
-      $field_app_id = field_get_items('node', $node, 'field_app_id');
-      $field_app_secret = field_get_items('node', $node, 'field_app_secret');
-
-      $fb_like_app->app_id = $field_app_id[0]['value'];
-      $fb_like_app->app_secret = $field_app_secret[0]['value'];
       $fb_like_app->parsed_request = fb_like_app_parse_signed_request($_REQUEST['signed_request'], $fb_like_app->app_secret);
 
       // Check if page is liked.
@@ -106,6 +106,11 @@ function fb_like_app_menu() {
       'access arguments' => array(1),
       'type' => MENU_LOCAL_TASK,
     ),
+    'fb_like_app/channel' => array(
+      'page callback' => 'fb_like_app_channel',
+      'access arguments' => array('view fb like app'),
+      'type' => MENU_CALLBACK,
+    ),
   );
 }
 
@@ -141,6 +146,19 @@ function fb_like_app_theme() {
  */
 function fb_like_app_page($node, $type = NULL) {
   print theme('fb_like_app', array('node' => $node, 'type' => $type));
+}
+
+/**
+ * Page Callback: Facebook Channel File.
+ *
+ * @see https://developers.facebook.com/docs/reference/javascript/
+ */
+function fb_like_app_channel() {
+  $cache_expire = 60*60*24*365;
+  header("Pragma: public");
+  header("Cache-Control: max-age=" . $cache_expire);
+  header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $cache_expire) . ' GMT');
+  print '<script src="//connect.facebook.net/en_US/all.js"></script>';
 }
 
 /**
