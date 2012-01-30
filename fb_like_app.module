@@ -112,7 +112,7 @@ function fb_like_app_language_from_facebook($languages) {
 }
 
 /**
- * Implements hook_perm().
+ * Implements hook_permission().
  */
 function fb_like_app_permission() {
   return array(
