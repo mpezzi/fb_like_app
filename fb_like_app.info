@@ -3,6 +3,5 @@ description = Provides Facebook Like Application functionality.
 core = 7.x
 
 files[] = fb_like_app.module
-files[] = fb_like_app.inc
 
 dependencies[] = fb_like_app_features
