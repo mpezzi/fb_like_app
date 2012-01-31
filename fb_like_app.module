@@ -217,8 +217,9 @@ function fb_like_app_page($node, $type = NULL) {
 
     print theme('fb_like_app', array('node' => $node, 'type' => $type));
   }
-
-  drupal_access_denied();
+  else {
+    drupal_access_denied();
+  }
 }
 
 /**
