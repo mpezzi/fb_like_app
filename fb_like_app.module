@@ -205,16 +205,20 @@ function fb_like_app_theme() {
 function fb_like_app_page($node, $type = NULL) {
   global $fb_like_app;
 
-  // @HACK: We set variables here to allow for language negotiation,
-  // since we cannot load the node during fb_like_app_language_from_facebook().
-  if ( $fb_like_app->app_id != variable_get('fb_like_app_node_' . $node->nid . '_app_id', FALSE) ) {
-    variable_set('fb_like_app_node_' . $node->nid . '_app_id', $fb_like_app->app_id);
-  }
-  if ( $fb_like_app->app_secret != variable_get('fb_like_app_node_' . $node->nid . '_app_secret', FALSE) ) {
-    variable_set('fb_like_app_node_' . $node->nid . '_app_secret', $fb_like_app->app_secret);
+  if ( $node->status ) {
+    // @HACK: We set variables here to allow for language negotiation,
+    // since we cannot load the node during fb_like_app_language_from_facebook().
+    if ( $fb_like_app->app_id != variable_get('fb_like_app_node_' . $node->nid . '_app_id', FALSE) ) {
+      variable_set('fb_like_app_node_' . $node->nid . '_app_id', $fb_like_app->app_id);
+    }
+    if ( $fb_like_app->app_secret != variable_get('fb_like_app_node_' . $node->nid . '_app_secret', FALSE) ) {
+      variable_set('fb_like_app_node_' . $node->nid . '_app_secret', $fb_like_app->app_secret);
+    }
+
+    print theme('fb_like_app', array('node' => $node, 'type' => $type));
   }
 
-  print theme('fb_like_app', array('node' => $node, 'type' => $type));
+  drupal_access_denied();
 }
 
 /**
