@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the fb_like_app_features feature.
+ */
+
+include_once('fb_like_app_features.features.inc');

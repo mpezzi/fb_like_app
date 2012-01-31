@@ -1,0 +1,371 @@
+<?php
+
+/**
+ * @file
+ * Provides Facebook Like Application functionality.
+ */
+
+/**
+ * Local Task url.
+ */
+define('FB_LIKE_APP_TASK', 'app');
+
+/**
+ * Facebook Like Application "Like" state.
+ */
+define('FB_LIKE_APP_LIKE', 'like');
+
+/**
+ * Facebook Like Application "Liked" state.
+ */
+define('FB_LIKE_APP_LIKED', 'liked');
+
+/**
+ * Facebook Like Application "Closed" state.
+ */
+define('FB_LIKE_APP_CLOSED', 'closed');
+
+/**
+ * Facebook Like Application "Maintenance" state.
+ */
+define('FB_LIKE_APP_MAINTENANCE', 'maintenance');
+
+
+/**
+ * Implements hook_init().
+ */
+function fb_like_app_init() {
+  global $conf, $fb_like_app;
+
+  // Parse signed request and language from Facebook page.
+  if ( arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == FB_LIKE_APP_TASK ) {
+    $node = node_load(arg(1));
+
+    // Get field data from node.
+    $field_app_id = field_get_items('node', $node, 'field_app_id');
+    $field_app_secret = field_get_items('node', $node, 'field_app_secret');
+
+    $fb_like_app->app_id = $field_app_id[0]['value'];
+    $fb_like_app->app_secret = $field_app_secret[0]['value'];
+
+    // Parse the signed request.
+    if ( isset($_REQUEST['signed_request']) ) {
+      $fb_like_app->parsed_request = fb_like_app_parse_signed_request($_REQUEST['signed_request'], $fb_like_app->app_secret);
+
+      // Check if page is liked.
+      if ( isset($fb_like_app->parsed_request['page']['liked']) ) {
+        $fb_like_app->liked = $fb_like_app->parsed_request['page']['liked'];
+      }
+
+      // Get user locale.
+      if ( isset($fb_like_app->parsed_request['user']['locale']) ) {
+        $fb_like_app->locale = $fb_like_app->parsed_request['user']['locale'];
+      }
+    }
+
+    // If liked state was not set from the signed_request, see our own mode.
+    if ( !isset($fb_like_app->liked) ) {
+      $fb_like_app->liked = 0;
+    }
+
+    $conf['cache'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_language_negotiation_info().
+ */
+function fb_like_app_language_negotiation_info() {
+  return array(
+    'fb_like_app_language_facebook' => array(
+      'callbacks' => array('language' => 'fb_like_app_language_from_facebook'),
+      'file' => drupal_get_path('module', 'fb_like_app') . '/fb_like_app.module',
+      'weight' => 10,
+      'name' => t('Facebook Locale'),
+      'description' => t('Determine the language from a Facebook Signed Request.'),
+    ),
+  );
+}
+
+/**
+ * Identify language from a Facebook Signed Request.
+ *
+ * @param $languages
+ *   An array of valid language objects.
+ * @return
+ *   A valid language code on success, FALSE otherwise.
+ */
+function fb_like_app_language_from_facebook($languages) {
+  if ( isset($_REQUEST['signed_request']) ) {
+    if ( arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == FB_LIKE_APP_TASK ) {
+      if ( $secret = variable_get('fb_like_app_node_' . arg(1) . '_app_secret', FALSE) ) {
+        $parsed_request = fb_like_app_parse_signed_request($_REQUEST['signed_request'], $secret);
+
+        if ( isset($parsed_request['user']['locale']) ) {
+          return fb_like_app_lang_map($parsed_request['user']['locale']);
+        }
+      }
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function fb_like_app_permission() {
+  return array(
+    'view fb like app' => array(
+      'title' => t('View Facebook Like Applications'),
+      'description' => t('Ability to view the rendered Facebook Like Application page'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function fb_like_app_menu() {
+  return array(
+    'node/%node/' . FB_LIKE_APP_TASK => array(
+      'title' => 'Like Application',
+      'page callback' => 'fb_like_app_page',
+      'page arguments' => array(1, 3),
+      'access callback' => '_fb_like_app_access',
+      'access arguments' => array(1),
+      'type' => MENU_LOCAL_TASK,
+    ),
+    'fb_like_app/channel' => array(
+      'page callback' => 'fb_like_app_channel',
+      'access arguments' => array('view fb like app'),
+      'type' => MENU_CALLBACK,
+    ),
+  );
+}
+
+/**
+ * Menu Access Callback.
+ */
+function _fb_like_app_access($node) {
+  if ( $node->type == 'fb_like_app' ) {
+    return user_access('view fb like app');
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function fb_like_app_theme() {
+  return array(
+    'fb_like_app' => array(
+      'variables' => array('node' => NULL, 'type' => NULL),
+      'template' => 'fb-like-app',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
+    ),
+    'fb_like_app_admin' => array(
+      'variables' => array('node' => NULL),
+      'template' => 'fb-like-app-admin',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
+    ),
+    'fb_like_app_like' => array(
+      'variables' => array('node' => NULL),
+      'template' => 'fb-like-app-like',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
+    ),
+    'fb_like_app_liked' => array(
+      'variables' => array('node' => NULL),
+      'template' => 'fb-like-app-liked',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
+    ),
+    'fb_like_app_closed' => array(
+      'variables' => array('node' => NULL),
+      'template' => 'fb-like-app-closed',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
+    ),
+    'fb_like_app_maintenance' => array(
+      'variables' => array('node' => NULL),
+      'template' => 'fb-like-app-maintenance',
+      'path' => drupal_get_path('module', 'fb_like_app') . '/theme',
+      'file' => 'theme.inc',
+    ),
+  );
+}
+
+/**
+ * Page Callback: Facebook Like Application.
+ */
+function fb_like_app_page($node, $type = NULL) {
+  global $fb_like_app;
+
+  // @HACK: We set variables here to allow for language negotiation,
+  // since we cannot load the node during fb_like_app_language_from_facebook().
+  if ( $fb_like_app->app_id != variable_get('fb_like_app_node_' . $node->nid . '_app_id', FALSE) ) {
+    variable_set('fb_like_app_node_' . $node->nid . '_app_id', $fb_like_app->app_id);
+  }
+  if ( $fb_like_app->app_secret != variable_get('fb_like_app_node_' . $node->nid . '_app_secret', FALSE) ) {
+    variable_set('fb_like_app_node_' . $node->nid . '_app_secret', $fb_like_app->app_secret);
+  }
+
+  print theme('fb_like_app', array('node' => $node, 'type' => $type));
+}
+
+/**
+ * Page Callback: Facebook Channel File.
+ *
+ * @see https://developers.facebook.com/docs/reference/javascript/
+ */
+function fb_like_app_channel() {
+  $cache_expire = 60*60*24*365;
+  header("Pragma: public");
+  header("Cache-Control: max-age=" . $cache_expire);
+  header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $cache_expire) . ' GMT');
+  print '<script src="//connect.facebook.net/en_US/all.js"></script>';
+}
+
+/**
+ * Parse a Facebook signed request.
+ * @see https://developers.facebook.com/docs/authentication/signed_request/
+ *
+ * @param $signed_request
+ *   A Facebook signed request, usually found in $_REQUEST['signed_request']
+ * @param $secret
+ *   A Facebook App secret.
+ * @return
+ *   A Facebook Signed Request data array.
+ */
+function fb_like_app_parse_signed_request($signed_request, $secret) {
+  list($encoded_sig, $payload) = explode('.', $signed_request, 2); 
+
+  // Decode the data.
+  $sig = fb_like_app_base64_url_decode($encoded_sig);
+  $data = json_decode(fb_like_app_base64_url_decode($payload), true);
+
+  if (strtoupper($data['algorithm']) !== 'HMAC-SHA256') {
+    error_log('Unknown algorithm. Expected HMAC-SHA256');
+    return null;
+  }
+
+  // Check signature.
+  $expected_sig = hash_hmac('sha256', $payload, $secret, $raw = true);
+  if ($sig !== $expected_sig) {
+    error_log('Bad Signed JSON signature!');
+    return null;
+  }
+
+  return $data;
+}
+
+/**
+ * Decode a url data.
+ */
+function fb_like_app_base64_url_decode($input) {
+  return base64_decode(strtr($input, '-_', '+/'));
+}
+
+/*
+ * Mapping Facebook locale -> Drupal language code
+ */
+function fb_like_app_lang_map($lang) {
+  $map = array(
+    'af_ZA' => 'af',
+    'ar_AR' => 'ar',
+    'ay_BO' => 'ay',
+    'az_AZ' => 'az',
+    'be_BY' => 'be',
+    'bg_BG' => 'bg',
+    'bn_IN' => 'bn',
+    'bs_BA' => 'bs',
+    'ca_ES' => 'ca',
+    'cs_CZ' => 'cs',
+    'cy_GB' => 'cy',
+    'da_DK' => 'da',
+    'de_DE' => 'de',
+    'el_GR' => 'el',
+    'en_US' => 'en',
+    'eo_EO' => 'eo',
+    'es_ES' => 'es',
+    'et_EE' => 'et',
+    'eu_ES' => 'eu',
+    'fa_IR' => 'fa',
+    'fi_FI' => 'fi',
+    'fo_FO' => 'fo',
+    'fr_CA' => 'fr',
+    'fr_FR' => 'fr',
+    'ga_IE' => 'ga',
+    'gl_ES' => 'gl',
+    'gn_PY' => 'gn',
+    'gu_IN' => 'gu',
+    'he_IL' => 'he',
+    'hi_IN' => 'hi',
+    'hr_HR' => 'hr',
+    'hu_HU' => 'hu',
+    'hy_AM' => 'hy',
+    'id_ID' => 'id',
+    'is_IS' => 'is',
+    'it_IT' => 'it',
+    'ja_JP' => 'ja',
+    'jv_ID' => 'jv',
+    'ka_GE' => 'ka',
+    'kk_KZ' => 'kk',
+    'km_KH' => 'km',
+    'kn_IN' => 'kn',
+    'ko_KR' => 'ko',
+    'ku_TR' => 'ku',
+    'la_VA' => 'la',
+    'lt_LT' => 'lt',
+    'lv_LV' => 'lv',
+    'mg_MG' => 'mg',
+    'mk_MK' => 'mk',
+    'ml_IN' => 'ml',
+    'mn_MN' => 'mn',
+    'mr_IN' => 'mr',
+    'ms_MY' => 'ms',
+    'mt_MT' => 'mt',
+    'nb_NO' => 'nb',
+    'ne_NP' => 'ne',
+    'nl_BE' => 'nl',
+    'nn_NO' => 'nn',
+    'pa_IN' => 'pa',
+    'pl_PL' => 'pl',
+    'ps_AF' => 'ps',
+    'qu_PE' => 'qu',
+    'rm_CH' => 'rm',
+    'ro_RO' => 'ro',
+    'ru_RU' => 'ru',
+    'sa_IN' => 'sa',
+    'se_NO' => 'se',
+    'sk_SK' => 'sk',
+    'sl_SI' => 'sl',
+    'so_SO' => 'so',
+    'sq_AL' => 'sq',
+    'sr_RS' => 'sr',
+    'sv_SE' => 'sv',
+    'sw_KE' => 'sw',
+    'ta_IN' => 'ta',
+    'te_IN' => 'te',
+    'tg_TJ' => 'tg',
+    'th_TH' => 'th',
+    'tl_ST' => 'tl',
+    'tr_TR' => 'tr',
+    'tt_RU' => 'tt',
+    'uk_UA' => 'uk',
+    'ur_PK' => 'ur',
+    'uz_UZ' => 'uz',
+    'vi_VN' => 'vi',
+    'xh_ZA' => 'xh',
+    'yi_DE' => 'yi',
+    'zh_CN' => 'zh-hans',
+    'zh_TW' => 'zh-hant',
+    'zu_ZA' => 'zu',
+  );
+
+  return isset($map[$lang]) ? $map[$lang] : 'en';
+}

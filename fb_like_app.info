@@ -1,0 +1,7 @@
+name = Facebook Like Application
+description = Provides Facebook Like Application functionality.
+core = 7.x
+
+files[] = fb_like_app.module
+
+dependencies[] = fb_like_app_features
