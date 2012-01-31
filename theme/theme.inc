@@ -19,7 +19,6 @@ function template_preprocess_fb_like_app(&$vars) {
   $field_app_status = field_get_items('node', $vars['node'], 'field_app_status');
 
   $vars['app_status'] = $field_app_status[0]['value'];
-
   $vars['is_closed'] = ( $vars['app_status'] == 0 );
   $vars['is_open'] = ( $vars['app_status'] == 1 );
   $vars['is_maintenance'] = ( $vars['app_status'] == 2 );
@@ -43,14 +42,11 @@ function template_preprocess_fb_like_app(&$vars) {
 
   $vars['fb_like_app'] = $fb_like_app;
 
-  // Sections.
   $vars['admin'] = theme('fb_like_app_admin', array('node' => $vars['node']));
   $vars['closed'] = theme('fb_like_app_closed', array('node' => $vars['node']));
   $vars['maintenance'] = theme('fb_like_app_maintenance', array('node' => $vars['node']));
   $vars['liked'] = theme('fb_like_app_liked', array('node' => $vars['node']));
   $vars['like'] = theme('fb_like_app_like', array('node' => $vars['node']));
-
-  //kpr($vars);
 }
 
 /**
@@ -67,7 +63,7 @@ function template_preprocess_fb_like_app_like(&$vars) {
 
   $vars['link'] = $field_app_link[0]['url'];
   $vars['content']['field_banner_like'] = field_view_value('node', $vars['node'], 'field_banner_like', $field_banner_like[0]);
-  
+
   if ( $field_banner_like_bypass ) {
     $vars['bypass']['field_banner_like_bypass'] = field_view_value('node', $vars['node'], 'field_banner_like_bypass', $field_banner_like_bypass[0]);
   }

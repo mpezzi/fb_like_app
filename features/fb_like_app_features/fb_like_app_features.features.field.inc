@@ -111,7 +111,7 @@ function fb_like_app_features_field_default_fields() {
       'bundle' => 'fb_like_app',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Add campaign tracking to the link by appending the following: <em>?utm_source=like_tab&utm_medium=facebook&utm_campaign=example</em>',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -130,7 +130,7 @@ function fb_like_app_features_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_app_link',
       'label' => 'Application Link',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'attributes' => array(
           'class' => '',
@@ -767,6 +767,7 @@ function fb_like_app_features_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Add campaign tracking to the link by appending the following: <em>?utm_source=like_tab&utm_medium=facebook&utm_campaign=example</em>');
   t('Application ID');
   t('Application Link');
   t('Application Secret');
