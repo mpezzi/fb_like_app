@@ -63,9 +63,14 @@ function template_preprocess_fb_like_app_like(&$vars) {
 
   $field_app_link = field_get_items('node', $vars['node'], 'field_app_link');
   $field_banner_like = field_get_items('node', $vars['node'], 'field_banner_like');
+  $field_banner_like_bypass = field_get_items('node', $vars['node'], 'field_banner_like_bypass');
 
   $vars['link'] = $field_app_link[0]['url'];
-  $vars['content'][] = field_view_value('node', $vars['node'], 'field_banner_like', $field_banner_like[0]);
+  $vars['content']['field_banner_like'] = field_view_value('node', $vars['node'], 'field_banner_like', $field_banner_like[0]);
+  
+  if ( $field_banner_like_bypass ) {
+    $vars['bypass']['field_banner_like_bypass'] = field_view_value('node', $vars['node'], 'field_banner_like_bypass', $field_banner_like_bypass[0]);
+  }
 }
 
 /**
@@ -80,7 +85,7 @@ function template_preprocess_fb_like_app_liked(&$vars) {
   $field_banner_liked = field_get_items('node', $vars['node'], 'field_banner_liked');
 
   $vars['link'] = $field_app_link[0]['url'];
-  $vars['content'][] = field_view_value('node', $vars['node'], 'field_banner_liked', $field_banner_liked[0]);
+  $vars['content']['field_banner_liked'] = field_view_value('node', $vars['node'], 'field_banner_liked', $field_banner_liked[0]);
 }
 
 /**
@@ -93,7 +98,7 @@ function template_preprocess_fb_like_app_closed(&$vars) {
 
   $field_banner_closed = field_get_items('node', $vars['node'], 'field_banner_closed');
 
-  $vars['content'][] = field_view_value('node', $vars['node'], 'field_banner_closed', $field_banner_closed[0]);
+  $vars['content']['field_banner_closed'] = field_view_value('node', $vars['node'], 'field_banner_closed', $field_banner_closed[0]);
 }
 
 /**
@@ -106,7 +111,7 @@ function template_preprocess_fb_like_app_maintenance(&$vars) {
 
   $field_banner_maintenance = field_get_items('node', $vars['node'], 'field_banner_maintenance');
 
-  $vars['content'][] = field_view_value('node', $vars['node'], 'field_banner_maintenance', $field_banner_maintenance[0]);
+  $vars['content']['field_banner_maintenance'] = field_view_value('node', $vars['node'], 'field_banner_maintenance', $field_banner_maintenance[0]);
 }
 
 /**

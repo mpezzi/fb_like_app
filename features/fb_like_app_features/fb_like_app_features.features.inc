@@ -56,6 +56,24 @@ function fb_like_app_features_default_filefield_paths() {
     ),
     'active_updating' => '0',
   );
+  // Exported node::fb_like_app::field_banner_like_bypass
+  $settings['node::fb_like_app::field_banner_like_bypass'] = array(
+    'type' => 'node::fb_like_app',
+    'field' => 'field_banner_like_bypass',
+    'filename' => array(
+      'value' => '[node:nid]-[node:language].[file:ffp-extension-original]',
+      'tolower' => 0,
+      'pathauto' => 0,
+      'transliterate' => 0,
+    ),
+    'filepath' => array(
+      'value' => 'images/fb_like_app/like_bypass',
+      'tolower' => 0,
+      'pathauto' => 0,
+      'transliterate' => 0,
+    ),
+    'active_updating' => '0',
+  );
   // Exported node::fb_like_app::field_banner_liked
   $settings['node::fb_like_app::field_banner_liked'] = array(
     'type' => 'node::fb_like_app',

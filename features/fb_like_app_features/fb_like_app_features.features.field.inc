@@ -49,7 +49,7 @@ function fb_like_app_features_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '4',
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -118,7 +118,7 @@ function fb_like_app_features_field_default_fields() {
           'module' => 'link',
           'settings' => array(),
           'type' => 'link_default',
-          'weight' => '6',
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -199,7 +199,7 @@ function fb_like_app_features_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '5',
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -269,7 +269,7 @@ function fb_like_app_features_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '7',
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -290,7 +290,7 @@ function fb_like_app_features_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '8',
+        'weight' => '9',
       ),
     ),
   );
@@ -337,7 +337,7 @@ function fb_like_app_features_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => '2',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -384,7 +384,7 @@ function fb_like_app_features_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '6',
+        'weight' => '7',
       ),
     ),
   );
@@ -431,7 +431,7 @@ function fb_like_app_features_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => '0',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -483,6 +483,100 @@ function fb_like_app_features_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-fb_like_app-field_banner_like_bypass'
+  $fields['node-fb_like_app-field_banner_like_bypass'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_banner_like_bypass',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => 0,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '1',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'fb_like_app',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
+          'weight' => '0',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'ffp_field_banner_like_bypass' => array(
+        'active_updating' => 0,
+        'file_name' => '[node:nid]-[node:language].[file:ffp-extension-original]',
+        'file_name_cleanup' => array(
+          'file_name_pathauto' => 0,
+          'file_name_tolower' => 0,
+          'file_name_transliterate' => 0,
+        ),
+        'file_path' => 'images/fb_like_app/like_bypass',
+        'file_path_cleanup' => array(
+          'file_path_pathauto' => 0,
+          'file_path_tolower' => 0,
+          'file_path_transliterate' => 0,
+        ),
+        'retroactive_update' => 0,
+      ),
+      'field_name' => 'field_banner_like_bypass',
+      'label' => 'Like Bypass',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 1,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'max_filesize' => '',
+        'max_resolution' => '',
+        'min_resolution' => '',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'image',
+        'settings' => array(
+          'preview_image_style' => 'thumbnail',
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'image_image',
+        'weight' => '5',
+      ),
+    ),
+  );
+
   // Exported field: 'node-fb_like_app-field_banner_liked'
   $fields['node-fb_like_app-field_banner_liked'] = array(
     'field_config' => array(
@@ -525,7 +619,7 @@ function fb_like_app_features_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => '1',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -572,7 +666,7 @@ function fb_like_app_features_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '5',
+        'weight' => '6',
       ),
     ),
   );
@@ -619,7 +713,7 @@ function fb_like_app_features_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => '3',
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -666,7 +760,7 @@ function fb_like_app_features_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '7',
+        'weight' => '8',
       ),
     ),
   );
@@ -679,6 +773,7 @@ function fb_like_app_features_field_default_fields() {
   t('Application Status');
   t('Closed');
   t('Like');
+  t('Like Bypass');
   t('Liked');
   t('Maintenance');
 
