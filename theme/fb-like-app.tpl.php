@@ -17,8 +17,8 @@
 
     #page {
       position: relative;
-      width: 520px;
-      height: 800px;
+      width: <?php print $app_width; ?>px;
+      height: <?php print $app_height; ?>px;
       overflow: hidden;
       font-size: 0.75em;
       line-height: 1.4em;
@@ -32,7 +32,7 @@
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 520px;
+      width: <?php print $app_width; ?>px;
       background: #808080;
       color: #fff;
       cursor: pointer;
