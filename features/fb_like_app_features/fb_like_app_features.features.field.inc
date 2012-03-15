@@ -10,6 +10,73 @@
 function fb_like_app_features_field_default_fields() {
   $fields = array();
 
+  // Exported field: 'node-fb_like_app-field_app_height'
+  $fields['node-fb_like_app-field_app_height'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_app_height',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'number',
+      'settings' => array(
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'number_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'fb_like_app',
+      'default_value' => array(
+        0 => array(
+          'value' => '800',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => 10,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_app_height',
+      'label' => 'Application Height',
+      'required' => 1,
+      'settings' => array(
+        'max' => '',
+        'min' => '',
+        'prefix' => '',
+        'suffix' => 'px',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
+        'weight' => '5',
+      ),
+    ),
+  );
+
   // Exported field: 'node-fb_like_app-field_app_id'
   $fields['node-fb_like_app-field_app_id'] = array(
     'field_config' => array(
@@ -290,7 +357,74 @@ function fb_like_app_features_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '9',
+        'weight' => '11',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-fb_like_app-field_app_width'
+  $fields['node-fb_like_app-field_app_width'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_app_width',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'number',
+      'settings' => array(
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'number_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'fb_like_app',
+      'default_value' => array(
+        0 => array(
+          'value' => '810',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => 9,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_app_width',
+      'label' => 'Application Width',
+      'required' => 1,
+      'settings' => array(
+        'max' => '',
+        'min' => '',
+        'prefix' => '',
+        'suffix' => 'px',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
+        'weight' => '4',
       ),
     ),
   );
@@ -384,7 +518,7 @@ function fb_like_app_features_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '7',
+        'weight' => '9',
       ),
     ),
   );
@@ -478,7 +612,7 @@ function fb_like_app_features_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '4',
+        'weight' => '6',
       ),
     ),
   );
@@ -572,7 +706,7 @@ function fb_like_app_features_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '5',
+        'weight' => '7',
       ),
     ),
   );
@@ -666,7 +800,7 @@ function fb_like_app_features_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '6',
+        'weight' => '8',
       ),
     ),
   );
@@ -760,7 +894,7 @@ function fb_like_app_features_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '8',
+        'weight' => '10',
       ),
     ),
   );
@@ -768,10 +902,12 @@ function fb_like_app_features_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Add campaign tracking to the link by appending the following: <em>?utm_source=like_tab&utm_medium=facebook&utm_campaign=example</em>');
+  t('Application Height');
   t('Application ID');
   t('Application Link');
   t('Application Secret');
   t('Application Status');
+  t('Application Width');
   t('Closed');
   t('Like');
   t('Like Bypass');
