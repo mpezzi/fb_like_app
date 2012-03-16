@@ -17,8 +17,12 @@ function template_preprocess_fb_like_app(&$vars) {
   $vars['theme_hook_suggestions'][] = 'fb_like_app__' . $vars['node']->nid;
 
   $field_app_status = field_get_items('node', $vars['node'], 'field_app_status');
+  $field_app_width = field_get_items('node', $vars['node'], 'field_app_width');
+  $field_app_height = field_get_items('node', $vars['node'], 'field_app_height');
 
   $vars['app_status'] = $field_app_status[0]['value'];
+  $vars['app_width'] = $field_app_width[0]['value'];
+  $vars['app_height'] = $field_app_height[0]['value'];
   $vars['is_closed'] = ( $vars['app_status'] == 0 );
   $vars['is_open'] = ( $vars['app_status'] == 1 );
   $vars['is_maintenance'] = ( $vars['app_status'] == 2 );
